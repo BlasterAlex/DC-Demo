@@ -62,7 +62,11 @@ export class TypeComponent implements OnInit {
 
   page2pdf(width: number = 500, callback: any) {
 
+    // Страница для создания pdf
     const page = document.body;
+
+    // Отступы в pdf
+    const margin = 35;
 
     // Удаление лишних элементов со страницы
     (function clearUnnecessary() {
@@ -74,6 +78,11 @@ export class TypeComponent implements OnInit {
         width = content.offsetWidth;
         page.style.width = width + 'px';
       }
+
+      // Отступы на странице
+      page.style.margin = '0';
+      page.style.marginBottom = margin + 'px';
+      page.style.marginRight = margin + 'px';
 
       // Удаление картинок типов
       document.getElementById('type-images')!.remove();
@@ -104,9 +113,6 @@ export class TypeComponent implements OnInit {
 
       // Соотношение сторон A4
       const ratio = 297 / 210;
-
-      // Отступы в pdf
-      const margin = 35;
 
       // Размеры pdf страницы
       const PDF_Width = HTML_Width + margin * 2;
@@ -144,9 +150,8 @@ export class TypeComponent implements OnInit {
         zip.file('questionnaire.docx', doc);
 
         zip.generateAsync({ type: 'blob' }).then((content) => {
-          if (content) {
+          if (content)
             FileSaver.saveAs(content, 'questionnaire.zip');
-          }
         });
 
         this.router.navigateByUrl('');
