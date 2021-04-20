@@ -1,0 +1,39 @@
+{
+  "profile": {
+    "picture": "assets/data/images/stairway_profile.png",
+    "attributes": {
+      "stairs-num": "top: 18px; left: 180px; height: 25px; width: 25px;",
+      "diagonal": "top: 47px; left: 232px; height: 20px; width: 33px; -webkit-transform: rotate(-19deg); text-orientation: mixed;",
+      "bottom-platform-length": "bottom: 50px; left: 52px; height: 20px; width: 33px;",
+      "top-platform-length": "top: 72px; right: 120px; height: 20px; width: 40px;",
+      "route-length": "bottom: 25px; left: 260px; height: 20px; width: 33px;",
+      "route-height": "top: 92px; right: 40px; height: 20px; width: 33px; -webkit-transform: rotate(-90deg);"
+    }
+  },
+  "plan": {
+    "left": {
+      "picture": "assets/data/images/stairway_plan_left.png",
+      "attributes": {
+        "bottom-platform-length": "top: 3px; right: 105px; height: 25px; width: 50px;",
+        "middle-ground-level": "top: 190px; left: 83px; height: 20px; width: 60px;",
+        "middle-ground-length": "bottom: 35px; left: 113px; height: 20px; width: 60px;",
+        "top-platform-length": "bottom: 12px; right: 158px; height: 20px; width: 60px;",
+        "top-ground-level": "top: 186px; right: 190px; height: 20px; width: 55px; -webkit-transform: rotate(-90deg);",
+        "top-platform-width": "bottom: 82px; right: 42px; height: 20px; width: 35px; -webkit-transform: rotate(-90deg);",
+        "bottom-platform-width": "top: 61px; right: 16px; height: 20px; width: 35px; -webkit-transform: rotate(-90deg);"
+      }
+    },
+    "right": {
+      "picture": "assets/data/images/stairway_plan_right.png",
+      "attributes": {
+        "top-platform-length": "top: 3px; right: 163px; height: 20px; width: 50px;",
+        "middle-ground-length": "top: 25px; left: 118px; height: 20px; width: 55px;",
+        "middle-ground-level": "top: 181px; left: 87px; height: 20px; width: 55px;",
+        "top-ground-level": "top: 185px; right: 187px; height: 20px; width: 50px; -webkit-transform: rotate(-90deg);",
+        "bottom-platform-length": "bottom: 8px; right: 95px; height: 20px; width: 55px;",
+        "bottom-platform-width": "top: 97px; right: 40px; height: 20px; width: 35px; -webkit-transform: rotate(-90deg);",
+        "top-platform-width": "bottom: 54px; right: 13px; height: 20px; width: 35px; -webkit-transform: rotate(-90deg);"
+      }
+    }
+  }
+}

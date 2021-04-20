@@ -1,0 +1,29 @@
+<div class="type-cards">
+  <mat-card class="type-card" *ngFor="let type of types">
+
+    <mat-card-header>
+      <mat-card-title>{{type.title}}</mat-card-title>
+    </mat-card-header>
+
+    <input #many_images value="{{cards.get(type.id).images.length > 1}}" hidden />
+
+    <mat-carousel timings="350ms ease-in" [autoplay]="false" color="accent" [loop]="true"
+      [hideArrows]="many_images.value !== 'true'" [hideIndicators]="many_images.value !== 'true'"
+      [useKeyboard]="many_images.value !== 'true'" [useMouseWheel]="false" orientation="ltr" [proportion]="80">
+
+      <mat-carousel-slide #matCarouselSlide *ngFor="let image of cards.get(type.id).images" [image]="image"
+        overlayColor="#00000040" [hideOverlay]="true">
+      </mat-carousel-slide>
+
+    </mat-carousel>
+
+    <mat-card-actions>
+      <button mat-raised-button (click)="buttonClicked(type.id)">Принять</button>
+      <mat-radio-group>
+        <mat-radio-button *ngFor="let item of type.direction | keyvalue; let i = index;" value="{{item.key}}"
+          [checked]="i===0" (change)="radioChange(type.id, $event)">
+          {{item.value.name}}</mat-radio-button>
+      </mat-radio-group>
+    </mat-card-actions>
+  </mat-card>
+</div>

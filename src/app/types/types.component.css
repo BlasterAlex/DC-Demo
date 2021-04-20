@@ -1,0 +1,35 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.type-cards {
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: center;
+}
+
+.type-card {
+  max-width: 500px;
+  margin: 10px;
+  height: 100%;
+}
+
+.mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+}
+
+.mat-radio-group {
+  align-self: center;
+  justify-self: flex-end;
+}
+
+:host ::ng-deep .mat-radio-container {
+  display: none;
+}
+
+.mat-radio-checked {
+  color: #f79130;
+  transition-duration: 0.15s;
+}
+

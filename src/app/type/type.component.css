@@ -1,0 +1,52 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+#type-content {
+  padding: 0 10px;
+  display: inline-block;
+}
+
+#type-images {
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 20px;
+  width: 70%;
+  max-width: 800px;
+  background: rgb(243, 243, 243);
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+#type-images img {
+  align-self: center;
+  width: 49.5%;
+  height: 100%;
+}
+
+.mat-form-field {
+  border: 1px solid black;
+  width: 50px;
+}
+
+.mat-form-field input {
+  padding-left: 2px;
+}
+
+.table {
+  max-width: 500px;
+}
+
+tr td {
+  vertical-align: middle !important;
+}
+tr span {
+  padding: 0.8rem 1rem;
+}
+
+#accept-button {
+  padding: 5px 7px;
+  border-radius: 5px;
+  margin-top: 10px;
+  background: rgb(55, 207, 88);
+  color: #fff;
+}

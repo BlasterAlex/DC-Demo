@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+
+.header-title {
+  font-family: "Montserrat", sans-serif;
+  margin-left: 15px; 
+  text-align: center;
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 28px;
+}

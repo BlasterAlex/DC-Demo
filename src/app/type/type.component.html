@@ -1,0 +1,60 @@
+<div id="type-content" *ngIf="type && stairway">
+
+  <h2 style="max-width: 900px;">{{type.title}}</h2>
+
+  <div id="type-images">
+    <img *ngFor="let image of type.direction[direction].images" [src]="image" alt="">
+  </div>
+
+  <div class="stairways-profiles" *ngFor="let one_stairway of type.stairways | keyvalue; let i = index">
+
+    <h3>{{one_stairway.value.name}}</h3>
+    <div class="stairway-profile" style="position: relative; display: inline-block;">
+      <img [src]="stairway.profile.picture" alt="">
+      <input type="text" *ngFor="let stair_attr of stairway.profile.attributes| keyvalue"
+        [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
+    </div><br>
+
+    <h4>Замеры ступенек</h4>
+
+    <div class="steps-dim-info">
+      <img src="assets/data/images/steps_dim.png" alt="" style="width: 150px;"><br>
+      <span>Количество ступенек: </span>
+      <mat-form-field>
+        <input type="number" min="1" [value]="stairways.get(one_stairway.key)"
+          (change)="stairwayChange(one_stairway.key, $event)" matInput />
+      </mat-form-field>
+    </div>
+
+    <table class="table table-bordered table-responsive-md table-striped text-center">
+      <tr>
+        <th class="text-center">№ ступени (снизу)</th>
+        <th class="text-center">Подступенок</th>
+        <th class="text-center">Проступь</th>
+      </tr>
+      <tr *ngFor="let i of range(stairways.get(one_stairway.key) || 1)">
+        <td>
+          <span>{{i+1}}</span>
+        </td>
+        <td>
+          <span contenteditable="true"></span>
+        </td>
+        <td>
+          <span contenteditable="true"></span>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+  <h3>Планы маршей</h3>
+  <h4>{{type.direction[direction].name}} исполнение</h4>
+  <div class="stairway-plan" style="position: relative; display: inline-block;">
+    <img [src]="stairway.plan[direction].picture" alt="">
+    <input type="text" *ngFor="let stair_attr of stairway.plan[direction].attributes| keyvalue"
+      [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
+  </div><br>
+
+  <button mat-raised-button id="accept-button" (click)="downloadArchive()">Создать заявку</button>
+
+</div>
