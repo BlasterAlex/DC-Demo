@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatRadioChange } from '@angular/material/radio';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {MatRadioChange} from '@angular/material/radio';
+import {Router} from '@angular/router';
 
-import { TypeService } from '../models/type/type.service';
-import { Type } from '../models/type/type.model';
+import {TypeService} from '../models/type/type.service';
+import {Type} from '../models/type/type.model';
 
 @Component({
   selector: 'app-types',
@@ -16,16 +16,17 @@ export class TypesComponent implements OnInit {
 
   cards = new Map();
 
-  constructor(private router: Router, private typeService: TypeService) { }
-
-  radioChange(type_id: string, event: MatRadioChange) {
-    const state = event.value;
-    const images = this.types.filter(t => t.id === type_id)[0].direction[state].images;
-    this.cards.set(type_id, { state: state, images: images });
+  constructor(private router: Router, private typeService: TypeService) {
   }
 
-  buttonClicked(type_id: string) {
-    this.router.navigateByUrl('type/' + type_id + '?direction=' + this.cards.get(type_id).state);
+  radioChange(typeId: string, event: MatRadioChange): void {
+    const state = event.value;
+    const images = this.types.filter(t => t.id === typeId)[0].direction[state].images;
+    this.cards.set(typeId, {state, images});
+  }
+
+  buttonClicked(typeId: string): void {
+    this.router.navigateByUrl('type/' + typeId + '?direction=' + this.cards.get(typeId).state).then();
   }
 
   ngOnInit(): void {
@@ -35,9 +36,9 @@ export class TypesComponent implements OnInit {
         const key = Object.keys(d.direction)[0];
         const perf = d.direction[key];
         if (perf !== undefined) {
-          this.cards.set(d.id, { state: key, images: perf.images });
+          this.cards.set(d.id, {state: key, images: perf.images});
         }
-      })
+      });
     });
   }
 

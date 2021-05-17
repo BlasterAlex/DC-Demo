@@ -1,3 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-/* @import "~bootstrap/dist/css/bootstrap.css"; */
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~@fontsource/montserrat/cyrillic-700.css';
 @import '~material-design-icons/iconfont/material-icons.css';
+
+body {
+  margin: 20px !important;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}

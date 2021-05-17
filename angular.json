@@ -31,13 +31,15 @@
               "src/assets"
             ],
             "styles": [
+              "src/dc-theme.scss",
               "src/styles.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "@babel/runtime-corejs3",
               "raf",
-              "file-saver"
+              "file-saver",
+              "moment-timezone"
             ]
           },
           "configurations": {

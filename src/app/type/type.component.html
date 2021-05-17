@@ -1,60 +1,189 @@
-<div id="type-content" *ngIf="type && stairway">
+<div id="type-content" *ngIf="type && stairway && customerData && specifications">
 
-  <h2 style="max-width: 900px;">{{type.title}}</h2>
+  <h1 style="margin-top: 20px; max-width: 900px; font-weight: 500">{{type.title}}</h1>
 
-  <div id="type-images">
-    <img *ngFor="let image of type.direction[direction].images" [src]="image" alt="">
-  </div>
+  <h2 id="today" hidden></h2>
 
-  <div class="stairways-profiles" *ngFor="let one_stairway of type.stairways | keyvalue; let i = index">
+  <mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedTabIndex"
+                 (selectedIndexChange)="selectedTabIndex = $event" id="mat-tab-group">
 
-    <h3>{{one_stairway.value.name}}</h3>
-    <div class="stairway-profile" style="position: relative; display: inline-block;">
-      <img [src]="stairway.profile.picture" alt="">
-      <input type="text" *ngFor="let stair_attr of stairway.profile.attributes| keyvalue"
-        [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
-    </div><br>
+    <mat-tab label="Внешний вид">
+      <div class="tab-content">
+        <div id="type-images">
+          <img *ngFor="let image of type.direction[direction].images" [src]="image" alt="">
+        </div>
+      </div>
+    </mat-tab>
 
-    <h4>Замеры ступенек</h4>
+    <mat-tab label="Контактные данные">
+      <div class="tab-content">
+        <h2>Контактные данные</h2>
+        <form [formGroup]="customerForm" fxLayout="column">
+          <mat-form-field *ngFor="let field of customerData"
+                          appearance="fill"
+                          [class]="'characteristic-form-field ' + (field.editable ? '': 'mat-form-field-disabled')">
 
-    <div class="steps-dim-info">
-      <img src="assets/data/images/steps_dim.png" alt="" style="width: 150px;"><br>
-      <span>Количество ступенек: </span>
-      <mat-form-field>
-        <input type="number" min="1" [value]="stairways.get(one_stairway.key)"
-          (change)="stairwayChange(one_stairway.key, $event)" matInput />
-      </mat-form-field>
-    </div>
+            <mat-label>{{field.name}}</mat-label>
 
-    <table class="table table-bordered table-responsive-md table-striped text-center">
-      <tr>
-        <th class="text-center">№ ступени (снизу)</th>
-        <th class="text-center">Подступенок</th>
-        <th class="text-center">Проступь</th>
-      </tr>
-      <tr *ngFor="let i of range(stairways.get(one_stairway.key) || 1)">
-        <td>
-          <span>{{i+1}}</span>
-        </td>
-        <td>
-          <span contenteditable="true"></span>
-        </td>
-        <td>
-          <span contenteditable="true"></span>
-        </td>
-      </tr>
-    </table>
+            <ng-container [ngSwitch]="field.type">
 
-  </div>
+              <ng-container *ngSwitchCase="types.TEXT">
+                <input matInput [formControlName]="field.id" [readonly]="!field.editable">
+              </ng-container>
 
-  <h3>Планы маршей</h3>
-  <h4>{{type.direction[direction].name}} исполнение</h4>
-  <div class="stairway-plan" style="position: relative; display: inline-block;">
-    <img [src]="stairway.plan[direction].picture" alt="">
-    <input type="text" *ngFor="let stair_attr of stairway.plan[direction].attributes| keyvalue"
-      [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
-  </div><br>
+            </ng-container>
 
-  <button mat-raised-button id="accept-button" (click)="downloadArchive()">Создать заявку</button>
+            <mat-error
+              *ngIf="customerForm.controls[field.id].invalid && (customerForm.controls[field.id].dirty || customerForm.controls[field.id].touched)">
+              <div *ngIf="customerForm.controls[field.id].errors?.required">
+                Поле обязательно для заполнения
+              </div>
+              <div *ngIf="customerForm.controls[field.id].errors?.pattern">
+                Введите корректное значение
+              </div>
+            </mat-error>
+
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Технические характеристики">
+      <div class="tab-content">
+        <h2>Технические характеристики</h2>
+        <form [formGroup]="specificForm" fxLayout="column">
+          <mat-form-field *ngFor="let field of specifications"
+                          appearance="fill"
+                          [class]="'characteristic-form-field ' + (field.editable ? '': 'mat-form-field-disabled')">
+
+            <mat-label>{{field.name}}</mat-label>
+
+            <ng-container [ngSwitch]="field.type">
+
+              <ng-container *ngSwitchCase="types.NUMBER">
+                <input matInput type="number" [formControlName]="field.id" [readonly]="!field.editable">
+              </ng-container>
+
+              <ng-container *ngSwitchCase="types.TEXT">
+                <input matInput [formControlName]="field.id" [readonly]="!field.editable">
+              </ng-container>
+
+              <ng-container *ngSwitchCase="types.COLOR">
+                <mat-select [formControlName]="field.id"
+                            class="color-select"
+                            (selectionChange)="colorPick($event)">
+                  <mat-option *ngFor="let color of field.options" [value]="color"
+                              [style]="'background: '+ ralToHex(asString(color))">{{color}}
+                  </mat-option>
+                </mat-select>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="types.SELECTION">
+                <input matInput type="number" [formControlName]="field.id" hidden>
+                <mat-radio-group class="characteristic-select-list">
+                  <mat-radio-button *ngFor="let option of field.options; let i = index" [value]="i" [checked]="i === 0">
+                    {{option}}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="types.MULTIPLE_SELECTION">
+                <input matInput type="number" [formControlName]="field.id" hidden>
+                <section class="characteristic-select-list">
+                  <mat-checkbox *ngFor="let option of field.options" (change)="checkboxChanged($event)">
+                    <div *ngIf="isString(option); else elseBlock">
+                      {{option}}
+                    </div>
+                    <ng-template #elseBlock>
+                      <ng-container [ngSwitch]="asCharacteristic(option).type">
+                        <ng-container *ngSwitchCase="types.TEXT">
+                          <mat-label>{{asCharacteristic(option).name}}:</mat-label>
+                          <input class="characteristic-checkbox-input" [disabled]="true">
+                        </ng-container>
+                      </ng-container>
+                    </ng-template>
+                  </mat-checkbox>
+                </section>
+              </ng-container>
+
+            </ng-container>
+
+            <mat-error
+              *ngIf="specificForm.controls[field.id] && specificForm.controls[field.id].invalid && (specificForm.controls[field.id].dirty || specificForm.controls[field.id].touched)">
+              <div *ngIf="specificForm.controls[field.id].errors?.required">
+                Поле обязательно для заполнения
+              </div>
+              <div *ngIf="specificForm.controls[field.id].errors?.pattern">
+                Введите корректное значение
+              </div>
+            </mat-error>
+
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="{{one_stairway.value.name}}" class="stairways-profiles"
+             *ngFor="let one_stairway of type.stairways | keyvalue; let i = index">
+      <div class="tab-content">
+
+        <h2>{{one_stairway.value.name}}</h2>
+
+        <div class="stairway-profile" style="position: relative; display: inline-block;">
+          <img [src]="stairway.profile.picture" alt="">
+          <input type="text" *ngFor="let stair_attr of stairway.profile.attributes| keyvalue"
+                 [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
+        </div>
+        <br>
+
+        <h4>Замеры ступенек</h4>
+
+        <div class="steps-dim-info">
+          <img src="assets/data/images/steps_dim.png" alt="" style="width: 150px;"><br>
+          <span>Количество ступенек: </span>
+          <mat-form-field>
+            <input type="number" min="1" [value]="stairways.get(one_stairway.key)"
+                   (change)="stairwayChange(one_stairway.key, $event)" matInput/>
+          </mat-form-field>
+        </div>
+
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+          <tr>
+            <th class="text-center">№ ступени (снизу)</th>
+            <th class="text-center">Подступенок</th>
+            <th class="text-center">Проступь</th>
+          </tr>
+          <tr *ngFor="let i of range(stairways.get(one_stairway.key) || 1)">
+            <td>
+              <span>{{i + 1}}</span>
+            </td>
+            <td>
+              <span contenteditable="true"></span>
+            </td>
+            <td>
+              <span contenteditable="true"></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Планы маршей">
+      <div class="tab-content">
+        <h2>Планы маршей</h2>
+        <h4>{{type.direction[direction].name}} исполнение</h4>
+        <div class="stairway-plan" style="position: relative; display: inline-block;">
+          <img [src]="stairway.plan[direction].picture" alt="">
+          <input type="text" *ngFor="let stair_attr of stairway.plan[direction].attributes| keyvalue"
+                 [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
+        </div>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+
+  <button mat-raised-button id="accept-button" (click)="buttonClicked()">Создать заявку</button>
+
+  <div id="page-screen" hidden></div>
 
 </div>
