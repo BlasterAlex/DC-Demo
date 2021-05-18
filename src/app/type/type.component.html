@@ -5,7 +5,7 @@
   <h2 id="today" hidden></h2>
 
   <mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedTabIndex"
-                 (selectedIndexChange)="selectedTabIndex = $event" id="mat-tab-group">
+                 (selectedIndexChange)="selectedTabIndex = $event; startFillingForms = true;" id="mat-tab-group">
 
     <mat-tab label="Внешний вид">
       <div class="tab-content">

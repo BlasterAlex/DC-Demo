@@ -64,6 +64,10 @@
   font-weight: 500;
 }
 
+.mat-primary .mat-option {
+  text-shadow: 1px 1px 4px white;
+}
+
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: black;
   font-weight: 500;

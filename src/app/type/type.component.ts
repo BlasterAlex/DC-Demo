@@ -1,5 +1,5 @@
-import {AfterContentInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import jsPDF from 'jspdf';
 import * as FileSaver from 'file-saver';
@@ -23,7 +23,7 @@ import {MatSelectChange} from '@angular/material/select';
   styleUrls: ['./type.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class TypeComponent implements OnInit, AfterContentInit {
+export class TypeComponent implements OnInit {
 
   // Тип подъемника
   public type!: Type;
@@ -50,7 +50,6 @@ export class TypeComponent implements OnInit, AfterContentInit {
   startFillingForms = false;
 
   constructor(
-    private router: Router,
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
     private typeService: TypeService,
@@ -60,6 +59,8 @@ export class TypeComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit(): void {
+
+    // Чтение json файлов
     this.activatedRoute.params.subscribe(params => {
       const id = params.id;
       this.typeService.getAll().subscribe(data => {
@@ -72,27 +73,13 @@ export class TypeComponent implements OnInit, AfterContentInit {
         });
       });
     });
+
+    // Чтение информации о маршах
     this.stairwayService.get().subscribe(stairway => {
       this.stairway = stairway;
     });
-    const fillForm = (fields: Characteristic[], form: FormGroup) => {
-      fields.forEach(field => {
-        form.addControl(field.id, new FormControl(''));
-        if (field.value) {
-          form.controls[field.id].setValue(field.value);
-        }
-        const validators: ValidatorFn[] = [];
-        if (field.required) {
-          validators.push(Validators.required);
-        }
-        if (field.checkMask) {
-          validators.push(Validators.pattern((field.checkMask)));
-        }
-        if (validators.length > 0) {
-          form.controls[field.id].setValidators(validators);
-        }
-      });
-    };
+
+    // Заполнение формы контактной информации
     this.characteristicService.getCustomerData().subscribe(customerData => {
       let num = 1;
       for (const data of customerData) {
@@ -100,8 +87,10 @@ export class TypeComponent implements OnInit, AfterContentInit {
       }
       this.customerData = customerData;
       this.customerForm = new FormGroup({});
-      fillForm(this.customerData, this.customerForm);
+      this.fillFormValidate(this.customerData, this.customerForm);
     });
+
+    // Заполнение формы технической информации
     this.characteristicService.getSpecifications().subscribe(specifications => {
       let num = 1;
       for (const data of specifications) {
@@ -109,21 +98,43 @@ export class TypeComponent implements OnInit, AfterContentInit {
       }
       this.specifications = specifications;
       this.specificForm = new FormGroup({});
-      fillForm(this.specifications, this.specificForm);
+      this.fillFormValidate(this.specifications, this.specificForm);
     });
+
+    // Выставление цвета на цветные поля
+    const interval = setInterval(() => {
+      const colorSelectors = document.getElementsByClassName('color-select');
+      if (colorSelectors.length > 0) {
+        clearInterval(interval);
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < colorSelectors.length; i++) {
+          const colorSelector = colorSelectors[i];
+          const color = colorSelector.querySelector('.mat-select-min-line')?.innerHTML;
+          // @ts-ignore
+          colorSelector.closest<HTMLElement>('.mat-form-field-flex').style.background = this.ralToHex(color);
+        }
+      }
+    }, 500);
   }
 
-  ngAfterContentInit(): void {
-    setTimeout(() => {
-      const colorSelectors = document.getElementsByClassName('color-select');
-      // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < colorSelectors.length; i++) {
-        const colorSelector = colorSelectors[i];
-        const color = colorSelector.firstElementChild?.firstElementChild?.firstElementChild?.firstElementChild?.innerHTML;
-        // @ts-ignore
-        colorSelector.parentElement.parentElement.style.background = this.ralToHex(color);
+  // Заполнение форм и валидация полей
+  fillFormValidate(fields: Characteristic[], form: FormGroup): void {
+    fields.forEach(field => {
+      form.addControl(field.id, new FormControl(''));
+      if (field.value) {
+        form.controls[field.id].setValue(field.value);
       }
-    }, 400);
+      const validators: ValidatorFn[] = [];
+      if (field.required) {
+        validators.push(Validators.required);
+      }
+      if (field.checkMask) {
+        validators.push(Validators.pattern((field.checkMask)));
+      }
+      if (validators.length > 0) {
+        form.controls[field.id].setValidators(validators);
+      }
+    });
   }
 
   range(n: number): number[] {
@@ -180,7 +191,7 @@ export class TypeComponent implements OnInit, AfterContentInit {
       if (button.className.includes('mat-radio-checked')) {
         input.setAttribute('checked', 'checked');
       }
-      button.firstElementChild?.firstElementChild?.replaceWith(input);
+      button.querySelector('.mat-radio-container')?.replaceWith(input);
     });
 
     // Удаление лишних блоков
@@ -273,9 +284,6 @@ export class TypeComponent implements OnInit, AfterContentInit {
             FileSaver.saveAs(content, 'questionnaire.zip');
           }
         });
-
-        this.router.navigateByUrl('');
-
       });
     });
   }
@@ -283,7 +291,7 @@ export class TypeComponent implements OnInit, AfterContentInit {
   colorPick(event: MatSelectChange): void {
     const select = event.source._elementRef.nativeElement as HTMLSelectElement;
     // @ts-ignore
-    select.parentElement.parentElement.style.background = this.ralToHex(event.value);
+    select.closest<HTMLElement>('.mat-form-field-flex').style.background = this.ralToHex(event.value);
   }
 
   checkboxChanged(event: MatCheckboxChange): void {
@@ -329,7 +337,7 @@ export class TypeComponent implements OnInit, AfterContentInit {
         this.screenPage(pageNum + 1);
       } else {
         this.page2pdf((pdf: jsPDF) => {
-          this.router.navigateByUrl('');
+          window.location.href = '';
           pdf.save('questionnaire.pdf');
         });
       }
