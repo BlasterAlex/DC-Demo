@@ -71,6 +71,7 @@
               <ng-container *ngSwitchCase="types.COLOR">
                 <mat-select [formControlName]="field.id"
                             class="color-select"
+                            panelClass="color-select"
                             (selectionChange)="colorPick($event)">
                   <mat-option *ngFor="let color of field.options" [value]="color"
                               [style]="'background: '+ ralToHex(asString(color))">{{color}}
