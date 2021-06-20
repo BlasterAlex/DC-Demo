@@ -44,7 +44,7 @@ export class TypeComponent implements OnInit {
 
   // Индекс активной вкладки
   tabsQty!: number;
-  selectedTabIndex = 0;
+  selectedTabIndex = 5;
 
   // Начало заполнение форм (для первого нажатия на кнопку)
   startFillingForms = false;
@@ -125,7 +125,8 @@ export class TypeComponent implements OnInit {
         form.controls[field.id].setValue(field.value);
       }
       const validators: ValidatorFn[] = [];
-      if (field.required) {
+      if (field.required && field.type !== this.types.SELECTION &&
+        field.type !== this.types.MULTIPLE_SELECTION) {
         validators.push(Validators.required);
       }
       if (field.checkMask) {
@@ -173,7 +174,7 @@ export class TypeComponent implements OnInit {
     // Установка текущей даты
     const today = moment().tz('Europe/Samara', true).locale('ru');
     const todayHeader = document.getElementById('today') as HTMLHeadElement;
-    todayHeader.innerText = 'Опросный лист от ' + today.format('DD MMMM YYYY') + 'г.';
+    todayHeader.innerText = 'Опросный лист от ' + today.format('DD MMMM YYYYг. HH:mm:ss');
     todayHeader.removeAttribute('hidden');
 
     // Замена инпутов на текст
@@ -194,10 +195,10 @@ export class TypeComponent implements OnInit {
       button.querySelector('.mat-radio-container')?.replaceWith(input);
     });
 
-    // Удаление лишних блоков
-    page.querySelectorAll<HTMLDivElement>('.steps-dim-info').forEach(div => {
-      div.remove();
-    });
+    // // Удаление лишних блоков
+    // page.querySelectorAll<HTMLDivElement>('.steps-dim-info').forEach(div => {
+    //   div.remove();
+    // });
 
     // Удаление кнопки создания заявки
     document.getElementById('accept-button')?.remove();

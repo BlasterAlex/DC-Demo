@@ -24,11 +24,6 @@
 
 /* Tabs */
 
-/*.mat-tab-group {*/
-/*  border-radius: 10px;*/
-/*  border: 1px solid #9e9e9e;*/
-/*}*/
-
 .tab-content {
   padding: 10px;
 }
@@ -58,17 +53,37 @@
   padding-left: 2px;
 }
 
-.mat-select-value {
+/* Color selection */
+
+.color-select {
+  position: relative;
+}
+
+.color-select .mat-select-value {
   color: black;
   text-shadow: 1px 1px 4px white;
   font-weight: 500;
+  max-width: 300px;
 }
 
-.mat-primary .mat-option {
+.color-select .mat-option {
+  width: 300px;
+}
+
+.color-select .mat-select-trigger {
+  position: static;
+}
+
+.color-select .mat-select-arrow-wrapper {
+  position: absolute;
+  right: 10px;
+}
+
+.color-select .mat-primary .mat-option {
   text-shadow: 1px 1px 4px white;
 }
 
-.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+.color-select .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: black;
   font-weight: 500;
 }

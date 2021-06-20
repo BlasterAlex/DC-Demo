@@ -5,20 +5,25 @@
     "editable": false
   },
   {
-    "name": "Заказчик"
+    "name": "Заказчик",
+    "required": false
   },
   {
-    "name": "Адрес"
+    "name": "Адрес",
+    "required": false
   },
   {
     "name": "Телефон",
-    "checkMask": "[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*"
+    "checkMask": "[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*",
+    "required": false
   },
   {
     "name": "Email",
-    "checkMask": "[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}"
+    "checkMask": "[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}",
+    "required": false
   },
   {
-    "name": "Контактное лицо"
+    "name": "Контактное лицо",
+    "required": false
   }
 ]

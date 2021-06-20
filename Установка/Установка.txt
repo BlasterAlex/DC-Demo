@@ -1,0 +1,3 @@
+1. Запустить node-v13.14.0-x64.exe
+
+2. Запустить installation.bat
