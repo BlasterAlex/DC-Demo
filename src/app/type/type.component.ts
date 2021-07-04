@@ -1,21 +1,21 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import jsPDF from 'jspdf';
 import * as FileSaver from 'file-saver';
 import * as JSZip from 'jszip';
 
-import {TypeService} from '../models/type/type.service';
-import {Type} from '../models/type/type.model';
-import {StairwayService} from '../models/stairway/stairway.service';
-import {Stairway} from '../models/stairway/stairway.model';
-import {CharacteristicService} from '../models/characteristic/characteristic.service';
-import {Characteristic, CharType, RAL} from '../models/characteristic/characteristic.model';
-import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {MatCheckboxChange} from '@angular/material/checkbox';
+import { TypeService } from '../models/type/type.service';
+import { Type } from '../models/type/type.model';
+import { StairwayService } from '../models/stairway/stairway.service';
+import { Stairway } from '../models/stairway/stairway.model';
+import { CharacteristicService } from '../models/characteristic/characteristic.service';
+import { Characteristic, CharType, RAL } from '../models/characteristic/characteristic.model';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import * as moment from 'moment-timezone';
 import html2canvas from 'html2canvas';
-import {MatSelectChange} from '@angular/material/select';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-type',
@@ -44,7 +44,7 @@ export class TypeComponent implements OnInit {
 
   // Индекс активной вкладки
   tabsQty!: number;
-  selectedTabIndex = 5;
+  selectedTabIndex = 0;
 
   // Начало заполнение форм (для первого нажатия на кнопку)
   startFillingForms = false;
@@ -273,14 +273,14 @@ export class TypeComponent implements OnInit {
   }
 
   downloadArchive(): void {
-    this.http.get('assets/data/doc/questionnaire.docx', {responseType: 'blob'}).subscribe(doc => {
+    this.http.get('assets/data/doc/questionnaire.docx', { responseType: 'blob' }).subscribe(doc => {
       this.page2pdf((pdf: jsPDF) => {
 
         const zip = new JSZip();
-        zip.file('attachment.pdf', new Blob([pdf.output('blob')], {type: 'application/pdf'}));
+        zip.file('attachment.pdf', new Blob([pdf.output('blob')], { type: 'application/pdf' }));
         zip.file('questionnaire.docx', doc);
 
-        zip.generateAsync({type: 'blob'}).then((content) => {
+        zip.generateAsync({ type: 'blob' }).then((content) => {
           if (content) {
             FileSaver.saveAs(content, 'questionnaire.zip');
           }
