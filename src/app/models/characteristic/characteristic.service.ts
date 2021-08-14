@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Characteristic} from './characteristic.model';
-import {map} from 'rxjs/operators';
-import {plainToClass} from 'class-transformer';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Characteristic } from './characteristic.model';
+import { map } from 'rxjs/operators';
+import { plainToClass } from 'class-transformer';
+import { Observable } from 'rxjs';
 
 
 @Injectable()

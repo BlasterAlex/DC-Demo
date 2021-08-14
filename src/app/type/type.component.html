@@ -133,7 +133,7 @@
         <div class="stairway-profile" style="position: relative; display: inline-block;">
           <img [src]="stairway.profile.picture" alt="">
           <input type="text" *ngFor="let stair_attr of stairway.profile.attributes| keyvalue"
-                 [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
+                 [id]="stair_attr.key" [style]="'position: absolute; font-size: 12px; ' + stair_attr.value">
         </div>
         <br>
 
@@ -159,10 +159,10 @@
               <span>{{i + 1}}</span>
             </td>
             <td>
-              <span contenteditable="true"></span>
+              <span contenteditable="true" class="riser"></span>
             </td>
             <td>
-              <span contenteditable="true"></span>
+              <span contenteditable="true" class="tread"></span>
             </td>
           </tr>
         </table>

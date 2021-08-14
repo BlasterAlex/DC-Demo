@@ -4,13 +4,14 @@ import { TypesComponent } from './types/types.component';
 import { TypeComponent } from './type/type.component';
 
 const routes: Routes = [
-  { path: 'types', component: TypesComponent },
-  { path: 'type/:id', component: TypeComponent },
-  { path: '**', redirectTo: 'types' }
+  {path: 'types', component: TypesComponent},
+  {path: 'type/:id', component: TypeComponent},
+  {path: '**', redirectTo: 'types'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

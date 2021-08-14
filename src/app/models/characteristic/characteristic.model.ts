@@ -1,4 +1,4 @@
-import {plainToClass} from 'class-transformer';
+import { plainToClass } from 'class-transformer';
 
 export enum CharType {
   TEXT = 'TEXT',
@@ -240,6 +240,6 @@ const RAL = {
   'RAL 9022': '#9C9C9C',
   'RAL 9023': '#828282'
 };
-export {RAL};
+export { RAL };
 
 
