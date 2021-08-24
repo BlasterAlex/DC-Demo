@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Type } from './type.model';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { parse } from 'yamljs';
 
 
 @Injectable()
@@ -12,7 +14,11 @@ export class TypeService {
   }
 
   public getAll(): Observable<Type[]> {
-    return this.http.get<Type[]>('assets/data/types.json');
+    return this.http.get('assets/data/types.yaml', {
+      observe: 'body',
+      responseType: 'text'
+    })
+      .pipe(map(yamlString => parse(yamlString) as Type[]));
   }
 
 }

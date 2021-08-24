@@ -53,6 +53,11 @@
   padding-left: 2px;
 }
 
+.input-error {
+  background: #f3e6e5;
+  border: 1px solid red !important;
+}
+
 /* Color selection */
 
 .color-select {
@@ -107,6 +112,8 @@
   margin-left: 5px;
   height: 25px;
 }
+
+/* Table */
 
 .table {
   max-width: 500px;

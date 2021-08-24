@@ -140,7 +140,7 @@
         <h4>Замеры ступенек</h4>
 
         <div class="steps-dim-info">
-          <img src="assets/data/images/steps_dim.png" alt="" style="width: 150px;"><br>
+          <img class="stairway-steps-dim" src="assets/data/images/steps_dim.png" alt="" style="width: 150px;"><br>
           <span>Количество ступенек: </span>
           <mat-form-field>
             <input type="number" min="1" [value]="stairways.get(one_stairway.key)"
@@ -154,9 +154,9 @@
             <th class="text-center">Подступенок</th>
             <th class="text-center">Проступь</th>
           </tr>
-          <tr *ngFor="let i of range(stairways.get(one_stairway.key) || 1)">
+          <tr *ngFor="let i of range(stairways.get(one_stairway.key) || 1, 1)">
             <td>
-              <span>{{i + 1}}</span>
+              <span>{{i}}</span>
             </td>
             <td>
               <span contenteditable="true" class="riser"></span>
@@ -184,7 +184,5 @@
   </mat-tab-group>
 
   <button mat-raised-button id="accept-button" (click)="buttonClicked()">Создать заявку</button>
-
-  <div id="page-screen" hidden></div>
 
 </div>

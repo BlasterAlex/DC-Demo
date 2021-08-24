@@ -39,7 +39,8 @@
               "@babel/runtime-corejs3",
               "raf",
               "file-saver",
-              "moment-timezone"
+              "moment-timezone",
+              "yamljs"
             ]
           },
           "configurations": {

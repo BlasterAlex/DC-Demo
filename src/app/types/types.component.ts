@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {MatRadioChange} from '@angular/material/radio';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
+import { Router } from '@angular/router';
 
-import {TypeService} from '../models/type/type.service';
-import {Type} from '../models/type/type.model';
+import { TypeService } from '../models/type/type.service';
+import { Type } from '../models/type/type.model';
 
 @Component({
   selector: 'app-types',

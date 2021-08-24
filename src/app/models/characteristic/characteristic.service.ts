@@ -4,6 +4,7 @@ import { Characteristic } from './characteristic.model';
 import { map } from 'rxjs/operators';
 import { plainToClass } from 'class-transformer';
 import { Observable } from 'rxjs';
+import { parse } from 'yamljs';
 
 
 @Injectable()
@@ -13,21 +14,31 @@ export class CharacteristicService {
   }
 
   public getCustomerData(): Observable<Characteristic[]> {
-    return this.http.get('assets/data/customer_data.json').pipe(map(data => {
-      return plainToClass(Characteristic, data as any[]).map(char => {
-        char.nestedOptions();
-        return char;
-      });
-    }));
+    return this.http.get('assets/data/customer_data.yaml', {
+      observe: 'body',
+      responseType: 'text'
+    })
+      .pipe(map(yamlString => {
+        const data = parse(yamlString);
+        return plainToClass(Characteristic, data as any[]).map(char => {
+          char.nestedOptions();
+          return char;
+        });
+      }));
   }
 
   public getSpecifications(): Observable<Characteristic[]> {
-    return this.http.get('assets/data/specifications.json').pipe(map(data => {
-      return plainToClass(Characteristic, data as any[]).map(char => {
-        char.nestedOptions();
-        return char;
-      });
-    }));
+    return this.http.get('assets/data/specifications.yaml', {
+      observe: 'body',
+      responseType: 'text'
+    })
+      .pipe(map(yamlString => {
+        const data = parse(yamlString);
+        return plainToClass(Characteristic, data as any[]).map(char => {
+          char.nestedOptions();
+          return char;
+        });
+      }));
   }
 
 }

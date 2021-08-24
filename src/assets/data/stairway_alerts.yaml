@@ -1,0 +1,53 @@
+---
+- message: |-
+    ERROR: Диагональ лестницы не совпадает с замерами ступенек
+
+    Текущее значение диагонали: ${actual}
+    Ожидаемое значение диагонали: ${expected}
+  elementSelector: "#diagonal"
+  operation:
+    operationType: COMPARISON
+    operands:
+      - elementSelector: "#diagonal"
+      - operationType: ROOT
+        operands:
+          - operationType: SUM
+            operands:
+              - operationType: SQUARE
+                operands:
+                  - operationType: SUM
+                    operands:
+                      - elementSelector: ".riser"
+              - operationType: SQUARE
+                operands:
+                  - operationType: SUM
+                    operands:
+                      - elementSelector: ".tread"
+
+- message: |-
+    ERROR: Длина марша не совпадает с замерами ступенек
+
+    Текущее значение длины марша: ${actual}
+    Ожидаемое значение длины марша: ${expected}
+  elementSelector: "#route-length"
+  operation:
+    operationType: COMPARISON
+    operands:
+      - elementSelector: "#route-length"
+      - operationType: SUM
+        operands:
+          - elementSelector: ".tread"
+
+- message: |-
+    ERROR: Высота марша не совпадает с замерами ступенек
+
+    Текущее значение высоты марша: ${actual}
+    Ожидаемое значение высоты марша: ${expected}
+  elementSelector: "#route-height"
+  operation:
+    operationType: COMPARISON
+    operands:
+      - elementSelector: "#route-height"
+      - operationType: SUM
+        operands:
+          - elementSelector: ".riser"

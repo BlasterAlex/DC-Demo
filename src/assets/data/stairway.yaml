@@ -1,0 +1,36 @@
+---
+profile:
+  picture: assets/data/images/stairway_profile.png
+  attributes:
+    diagonal: 'top: 37px; left: 260px; height: 20px; width: 45px; -webkit-transform: rotate(-19deg); text-orientation: mixed;'
+    bottom-platform-length: 'bottom: 58px; left: 50px; height: 20px; width: 40px;'
+    top-platform-length: 'top: 12px; right: 47px; height: 20px; width: 42px;'
+    route-length: 'bottom: 25px; left: 290px; height: 20px; width: 40px;'
+    route-height: 'top: 90px; right: 30px; height: 20px; width: 43px; -webkit-transform: rotate(-90deg);'
+plan:
+  left:
+    picture: assets/data/images/stairway_plan_left.png
+    attributes:
+      right-platform-length: 'top: 14px; left: 117px; height: 25px; width: 70px;'
+      middle-platform: 'top: 180px; left: 140px; height: 55px; width: 48px; -webkit-transform: rotate(-90deg);'
+      middle-platform-width: 'bottom: 225px; left: 18px; height: 27px; width: 68px; -webkit-transform: rotate(-90deg);'
+      gap: 'bottom: 177px; left: 174px; height: 27px; width: 68px; -webkit-transform: rotate(-90deg);'
+      left-platform-length: 'bottom: 48px; left: 117px; height: 25px; width: 70px;'
+      bottom-platform-length: 'top: 37px; right: 123px; height: 25px; width: 65px;'
+      bottom-platform-width: 'top: 190px; right: 23px; height: 23px; width: 50px; -webkit-transform: rotate(-90deg);'
+      top-platform-length: 'bottom: 52px; right: 195px; height: 27px; width: 70px;'
+      top-platform: 'bottom: 162px; right: 231px; height: 27px; width: 40px; -webkit-transform: rotate(-90deg);'
+      top-platform-width: 'bottom: 212px; right: 166px; height: 23px; width: 40px; -webkit-transform: rotate(-90deg);'
+  right:
+    picture: assets/data/images/stairway_plan_right.png
+    attributes:
+      right-platform-length: 'top: 18px; left: 107px; height: 27px; width: 73px;'
+      middle-platform: 'top: 209px; left: 130px; height: 65px; width: 52px; -webkit-transform: rotate(-90deg);'
+      middle-platform-width: 'bottom: 240px; left: -4px; height: 27px; width: 72px; -webkit-transform: rotate(-90deg);'
+      gap: 'top: 172px; left: 192px; height: 27px; width: 68px; -webkit-transform: rotate(-90deg);'
+      left-platform-length: 'bottom: 46px; left: 110px; height: 25px; width: 70px;'
+      top-platform-length: 'top: 14px; right: 143px; height: 25px; width: 70px;'
+      top-platform: 'top: 200px; right: 184px; height: 27px; width: 40px; -webkit-transform: rotate(-90deg);'
+      top-platform-width: 'top: 235px; right: 95px; height: 23px; width: 46px; -webkit-transform: rotate(-90deg);'
+      bottom-platform-length: 'bottom: 39px; right: 67px; height: 22px; width: 67px;'
+      bottom-platform-width: 'bottom: 212px; right: -10px; height: 23px; width: 70px; -webkit-transform: rotate(-90deg);'
