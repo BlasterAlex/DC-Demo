@@ -17,7 +17,7 @@
                 operands:
                   - operationType: SUM
                     operands:
-                      - elementSelector: ".riser"
+                      - elementSelector: ".riser:not:first-child"
               - operationType: SQUARE
                 operands:
                   - operationType: SUM

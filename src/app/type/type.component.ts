@@ -293,9 +293,17 @@ export class TypeComponent implements OnInit {
       case LogicOperationType.COMPARISON: {
         const firstValue = Number(this.performCustomLogicOperation(operation.operands[0]));
         const secondValue = Number(this.performCustomLogicOperation(operation.operands[1]));
-
         const precision = 0.01;
-        const digits = this.countDecimals(precision);
+
+        // Добавлено после правок, если первая форма пустая - просто заполнить ее ожидаемым значением
+        if (customLogicAlert !== null) {
+          const alertElement = document.body.querySelector<HTMLInputElement>(customLogicAlert.elementSelector);
+          if (alertElement && this.stringEmpty(alertElement.value)) {
+            alertElement.value = this.numberToString(secondValue, precision);
+            alertElement.classList.remove('input-error');
+            return true;
+          }
+        }
 
         if (Math.abs(firstValue - secondValue) <= precision) {
           if (customLogicAlert !== null) {
@@ -310,8 +318,8 @@ export class TypeComponent implements OnInit {
               () => {
                 alert(this.createStringFromTemplate(customLogicAlert.message, new Map(
                   [
-                    ['actual', isNaN(firstValue) ? String(firstValue) : firstValue.toFixed(Math.min(digits, this.countDecimals(firstValue)))],
-                    ['expected', isNaN(secondValue) ? String(secondValue) : secondValue.toFixed(Math.min(digits, this.countDecimals(secondValue)))]
+                    ['actual', this.numberToString(firstValue, precision)],
+                    ['expected', this.numberToString(secondValue, precision)]
                   ]
                 )));
               }, 100);
@@ -451,7 +459,7 @@ export class TypeComponent implements OnInit {
         this.specifications.forEach((field) => {
           const row = sheet.getRow(currentRow);
           row.getCell(1).value = bold(field.name);
-          row.getCell(2).value = this.getFieldValueOfCorrectType(field);
+          row.getCell(2).value = this.correctTypeOf(this.getFieldValue(field));
           currentRow++;
         });
         break;
@@ -540,11 +548,6 @@ export class TypeComponent implements OnInit {
     }
   }
 
-  getFieldValueOfCorrectType(field: Characteristic): string | number {
-    const value = this.getFieldValue(field);
-    return this.stringEmpty(value) || !this.stringIsNumeric(value) ? value : Number(value);
-  }
-
   getFieldValue(field: Characteristic): string {
     const value = this.specificForm.controls[field.id].value;
     switch (field.type) {
@@ -593,7 +596,7 @@ export class TypeComponent implements OnInit {
 
   // Событие нажатия кнопки создания заявки
   buttonClicked(): void {
-    // // Первое нажатие на кнопку открывает вкладку с первой формой
+    // Первое нажатие на кнопку открывает вкладку с первой формой
     if (!this.startFillingForms) {
       this.selectedTabIndex = 1;
       this.startFillingForms = true;
@@ -603,11 +606,11 @@ export class TypeComponent implements OnInit {
       // Подсчет количества вкладок
       const matTabGroup = document.getElementsByTagName('mat-tab-group')[0];
       this.tabsQty = matTabGroup.querySelectorAll('mat-tab-body').length;
-      this.createExcel().then((ok) => {
+      this.createExcel(this.tabsBeforeStairways - 1).then((ok) => {
         if (ok) {
           window.location.href = '';
         } else {
-          console.error('Error during excel file creation');
+          console.error('Ошибка при создании Excel файла');
         }
       });
     }
@@ -637,6 +640,10 @@ export class TypeComponent implements OnInit {
     return !isNaN(Number(val));
   }
 
+  correctTypeOf(value: string): string | number {
+    return this.stringEmpty(value) || !this.stringIsNumeric(value) ? value : Number(value);
+  }
+
   asCharacteristic(val: any): Characteristic {
     return val as Characteristic;
   }
@@ -659,6 +666,11 @@ export class TypeComponent implements OnInit {
     return val.toString().split('.')[1].length || 0;
   }
 
+  numberToString(val: number, precision: number = 0.01): string {
+    const digits = this.countDecimals(precision);
+    return isNaN(val) ? String(val) : val.toFixed(Math.min(digits, this.countDecimals(val)));
+  }
+
   fitImageToWidthSize(width: number, height: number, fitWidth: number = 600): { width: number, height: number } {
     return {width: fitWidth, height: fitWidth / width * height};
   }
@@ -667,11 +679,44 @@ export class TypeComponent implements OnInit {
     return matrix[0].map((_, i) => matrix.map(row => row[i]));
   }
 
+  // Получение массива значений элементов по селектору c фильтрами
   getNumberArrayValuesBySelector(selector: string): number[] {
-    const output: number[] = [];
-    document.body.querySelectorAll<HTMLElement>(selector).forEach(element => {
+    const splited = selector.split(':');
+    const elementSelector = splited[0];
+    const filterSelectors = splited.slice(1);
+
+    let output: number[] = [];
+    document.body.querySelectorAll<HTMLElement>(elementSelector).forEach(element => {
       if (element.offsetParent !== null) {
         output.push(Number(element.innerText));
+      }
+    });
+
+    let not = false;
+    filterSelectors.forEach(filter => {
+      switch (filter) {
+        case 'not': {
+          not = true;
+          break;
+        }
+        case 'first-child': {
+          if (not) {
+            output = output.slice(1);
+            not = false;
+          } else {
+            output = output.slice(0, 1);
+          }
+          break;
+        }
+        case 'last-child': {
+          if (not) {
+            output = output.slice(0, -1);
+            not = false;
+          } else {
+            output = output.slice(-1);
+          }
+          break;
+        }
       }
     });
     return output;
