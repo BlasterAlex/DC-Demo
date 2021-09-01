@@ -9,6 +9,15 @@ Demo project for generating a client request and filling out a questionnaire
 To run the application, you need to install [nodejs](https://nodejs.org/en/download/)
 and [angular](https://angular.io/guide/setup-local) on your machine.
 
+To install the necessary packages, use the command:
+
+```shell
+npm install
+
+# or to solve the dependency-tree-error
+npm install --legacy-peer-deps
+```
+
 After that, to run the application locally, you can use the following command, which will start the local server on the http://localhost:4200/.
 
 ```shell
