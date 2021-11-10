@@ -1,9 +1,10 @@
 {
   "name": "dc-demo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "start:dev": "ng serve --open",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
