@@ -620,6 +620,10 @@ export class TypeComponent implements OnInit {
     return Array.from(Array(n).keys(), (_, i) => i + start);
   }
 
+  asIsOrder(): number {
+    return 1;
+  }
+
   stairwayChange(key: string, event: any): void {
     this.stairways.set(key, Number(event.target.value));
   }

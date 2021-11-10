@@ -125,7 +125,7 @@
     </mat-tab>
 
     <mat-tab label="{{one_stairway.value.name}}" class="stairways-profiles"
-             *ngFor="let one_stairway of type.stairways | keyvalue; let i = index">
+             *ngFor="let one_stairway of type.stairways | keyvalue: asIsOrder; let i = index">
       <div class="tab-content">
 
         <h2>{{one_stairway.value.name}}</h2>
